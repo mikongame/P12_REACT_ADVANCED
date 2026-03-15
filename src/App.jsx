@@ -4,6 +4,7 @@ import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import TicTacToe from './games/TicTacToe/TicTacToe';
 import PPTLS from './games/PPTLS/PPTLS';
+import SlotMachine from './games/SlotMachine/SlotMachine';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="tictactoe" element={<TicTacToe />} />
         <Route path="pps" element={<PPTLS />} />
+        <Route path="slots" element={<SlotMachine />} />
         <Route path="*" element={<Home />} />
       </Route>
     </Routes>

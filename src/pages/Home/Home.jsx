@@ -27,6 +27,15 @@ const Home = () => {
             <span className="play-btn">Play Now &rarr;</span>
           </div>
         </Link>
+
+        <Link to="/slots" className="game-card glass-panel">
+          <div className="game-card-img slots-bg"></div>
+          <div className="game-card-content">
+            <h2>Vegas Slots</h2>
+            <p>Prueba tu suerte en la tragaperras. Sistema de créditos y comodines implementado con **Custom Hooks** personalizados.</p>
+            <span className="play-btn">Spin to Win &rarr;</span>
+          </div>
+        </Link>
       </div>
 
       <div className="tech-stack glass-panel mt-4">
