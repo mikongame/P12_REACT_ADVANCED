@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import Home from './pages/Home/Home';
+import Login from './pages/Login/Login';
 import TicTacToe from './games/TicTacToe/TicTacToe';
 import RPS from './games/RPS/RPS';
 
@@ -9,6 +10,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
+        <Route path="login" element={<Login />} />
         <Route path="tictactoe" element={<TicTacToe />} />
         <Route path="rps" element={<RPS />} />
         <Route path="*" element={<Home />} />
