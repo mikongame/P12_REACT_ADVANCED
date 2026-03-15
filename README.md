@@ -63,7 +63,7 @@ Implementa un sistema de validación por conteo de símbolos que permite el uso 
    npm run build
    ```
 
-## 🛠️ Cumplimiento de Requisitos del Proyecto
+## Cumplimiento de Requisitos del Proyecto
 
 Este proyecto ha sido diseñado para cumplir y superar los criterios de evaluación de React Avanzado:
 
