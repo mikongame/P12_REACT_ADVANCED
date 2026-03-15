@@ -91,15 +91,20 @@ function tictactoeReducer(state, action) {
   }
 }
 
-const Square = memo(({ value, onClick, isWinningSquare, disabled }) => (
-  <button
-    className={`square ${isWinningSquare ? 'winning-square' : ''} ${value === 'X' ? 'x-player' : value === 'O' ? 'o-player' : ''}`}
-    onClick={onClick}
-    disabled={disabled || !!value}
-  >
-    {value}
-  </button>
-));
+const Square = memo(({ value, onClick, index, isWinningSquare, disabled }) => {
+  // Only calls the parent handler with its own index
+  const handleClick = () => onClick(index);
+  
+  return (
+    <button
+      className={`square ${isWinningSquare ? 'winning-square' : ''} ${value === 'X' ? 'x-player' : value === 'O' ? 'o-player' : ''}`}
+      onClick={handleClick}
+      disabled={disabled || !!value}
+    >
+      {value}
+    </button>
+  );
+});
 
 const TicTacToe = () => {
   const [state, dispatch] = useReducer(tictactoeReducer, initialState);
@@ -146,6 +151,11 @@ const TicTacToe = () => {
 
     return () => clearTimeout(timer);
   }, [state.view, state.xIsNext, state.winner, state.mode, state.squares]);
+
+  // Memoized click handler to ensure Square memoization works perfectly
+  const handleSquareClick = useCallback((idx) => {
+    dispatch({ type: 'PLAY_MOVE', index: idx });
+  }, []);
 
   if (state.view === 'SETUP') {
     return (
@@ -206,7 +216,8 @@ const TicTacToe = () => {
           <Square
             key={idx}
             value={value}
-            onClick={() => dispatch({ type: 'PLAY_MOVE', index: idx })}
+            onClick={handleSquareClick}
+            index={idx}
             isWinningSquare={state.winningLine?.includes(idx)}
             disabled={state.isThinking}
           />

@@ -3,10 +3,12 @@ import { usePPTLSLogic, CHOICE_ICONS } from '../../hooks/usePPTLSLogic';
 import './PPTLS.css';
 
 const ChoiceButton = memo(({ choice, onClick, disabled }) => {
+  const handleClick = () => onClick(choice);
+  
   return (
     <button 
       className={`choice-btn glass-panel ${disabled ? 'disabled' : ''}`} 
-      onClick={() => onClick(choice)}
+      onClick={handleClick}
       disabled={disabled}
     >
       <span className="choice-icon">{CHOICE_ICONS[choice]}</span>
