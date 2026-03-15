@@ -19,11 +19,11 @@ const Home = () => {
           </div>
         </Link>
         
-        <Link to="/rps" className="game-card glass-panel">
+        <Link to="/pps" className="game-card glass-panel">
           <div className="game-card-img rps-bg"></div>
           <div className="game-card-content">
-            <h2>Rock Paper Scissors</h2>
-            <p>The ultimate battle of elements. Features a tailored <strong>Custom Hook</strong> to manage game logic effortlessly.</p>
+            <h2>PPTLS</h2>
+            <p>Piedra, Papel, Tijera, Lagarto, Spock. El juego definitivo de <strong>The Big Bang Theory</strong> gestionado por hooks personalizados.</p>
             <span className="play-btn">Play Now &rarr;</span>
           </div>
         </Link>

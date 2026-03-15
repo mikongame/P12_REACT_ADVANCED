@@ -3,7 +3,7 @@ import Layout from './components/Layout/Layout';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import TicTacToe from './games/TicTacToe/TicTacToe';
-import RPS from './games/RPS/RPS';
+import PPTLS from './games/PPTLS/PPTLS';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="tictactoe" element={<TicTacToe />} />
-        <Route path="rps" element={<RPS />} />
+        <Route path="pps" element={<PPTLS />} />
         <Route path="*" element={<Home />} />
       </Route>
     </Routes>

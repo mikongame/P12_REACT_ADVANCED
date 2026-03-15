@@ -14,7 +14,7 @@ const Layout = () => {
           <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Hub</Link>
           <Link to="/login" className={location.pathname === '/login' ? 'active' : ''}>Login</Link>
           <Link to="/tictactoe" className={location.pathname === '/tictactoe' ? 'active' : ''}>Tic Tac Toe</Link>
-          <Link to="/rps" className={location.pathname === '/rps' ? 'active' : ''}>Rock Paper Scissors</Link>
+          <Link to="/pps" className={location.pathname === '/pps' ? 'active' : ''}>PPTLS</Link>
         </nav>
       </header>
 
