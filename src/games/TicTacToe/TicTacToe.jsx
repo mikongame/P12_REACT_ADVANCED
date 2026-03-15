@@ -1,35 +1,60 @@
-import { useReducer, useCallback, memo } from 'react';
+import { useReducer, useEffect, useCallback, memo } from 'react';
+import { checkWinner, monteCarloNextMove, findStrategicMove } from './tictactoeUtils';
 import './TicTacToe.css';
 
-// 1. Initial State
 const initialState = {
+  view: 'SETUP', // SETUP | PLAYING
   squares: Array(9).fill(null),
+  playerName: 'Guest',
+  mode: 'PLAYER_VS_CPU', // PLAYER_VS_CPU | CPU_VS_CPU
   xIsNext: true,
-  status: 'Ready to play! X goes first.',
+  status: '',
   winner: null,
   winningLine: null,
-  scores: { X: 0, O: 0 }
+  scores: { Player: 0, CPU: 0, Ties: 0 },
+  isThinking: false
 };
 
-// 2. Reducer
 function tictactoeReducer(state, action) {
   switch (action.type) {
-    case 'PLAY': {
-      if (state.winner || state.squares[action.index]) {
-        return state;
-      }
+    case 'START_GAME':
+      return {
+        ...state,
+        view: 'PLAYING',
+        playerName: action.name || 'Guest',
+        mode: action.mode,
+        squares: Array(9).fill(null),
+        winner: null,
+        winningLine: null,
+        status: action.mode === 'CPU_VS_CPU' ? 'Monte Carlo (X) vs CPU (O)' : `${action.name} (X) goes first!`,
+        xIsNext: true
+      };
+
+    case 'PLAY_MOVE': {
+      if (state.winner || state.squares[action.index] || state.isThinking) return state;
+
       const newSquares = [...state.squares];
-      newSquares[action.index] = state.xIsNext ? 'X' : 'O';
-      
-      const { winner, line } = calculateWinner(newSquares);
+      const currentSymbol = state.xIsNext ? 'X' : 'O';
+      newSquares[action.index] = currentSymbol;
+
+      const result = checkWinner(newSquares);
+      let newStatus = '';
       let newScores = { ...state.scores };
-      let newStatus = `Next player: ${!state.xIsNext ? 'X' : 'O'}`;
-      
-      if (winner) {
-        newStatus = `Winner: ${winner}!`;
-        newScores[winner] += 1;
-      } else if (!newSquares.includes(null)) {
-        newStatus = "It's a draw!";
+
+      if (result) {
+        if (result.winner === 'Draw') {
+          newStatus = "It's a draw!";
+          newScores.Ties += 1;
+        } else {
+          const winnerName = result.winner === 'X' 
+            ? (state.mode === 'CPU_VS_CPU' ? 'Monte Carlo' : state.playerName) 
+            : 'CPU';
+          newStatus = `${winnerName} Wins!`;
+          if (result.winner === 'X') newScores.Player += 1;
+          else newScores.CPU += 1;
+        }
+      } else {
+        newStatus = `Next: ${!state.xIsNext ? 'X' : 'O'}`;
       }
 
       return {
@@ -37,109 +62,160 @@ function tictactoeReducer(state, action) {
         squares: newSquares,
         xIsNext: !state.xIsNext,
         status: newStatus,
-        winner,
-        winningLine: line,
-        scores: newScores
+        winner: result?.winner || null,
+        winningLine: result?.line || null,
+        scores: newScores,
+        isThinking: false
       };
     }
-    case 'RESET_GAME': {
+
+    case 'SET_THINKING':
+      return { ...state, isThinking: action.value };
+
+    case 'RESET_ROUND':
       return {
-        ...initialState,
-        scores: state.scores // keep scores
+        ...state,
+        squares: Array(9).fill(null),
+        winner: null,
+        winningLine: null,
+        xIsNext: true,
+        status: state.mode === 'CPU_VS_CPU' ? 'Monte Carlo (X) vs CPU (O)' : `${state.playerName} (X) goes first!`,
+        isThinking: false
       };
-    }
-    case 'RESET_SCORES': {
-      return {
-        ...initialState
-      };
-    }
+
+    case 'EXIT_TO_SETUP':
+      return initialState;
+
     default:
       return state;
   }
 }
 
-// 3. Helper
-function calculateWinner(squares) {
-  const lines = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-    [0, 3, 6], [1, 4, 7], [2, 5, 8], // col
-    [0, 4, 8], [2, 4, 6]             // diagonals
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return { winner: squares[a], line: lines[i] };
-    }
-  }
-  return { winner: null, line: null };
-}
+const Square = memo(({ value, onClick, isWinningSquare, disabled }) => (
+  <button
+    className={`square ${isWinningSquare ? 'winning-square' : ''} ${value === 'X' ? 'x-player' : value === 'O' ? 'o-player' : ''}`}
+    onClick={onClick}
+    disabled={disabled || !!value}
+  >
+    {value}
+  </button>
+));
 
-// 4. Memoized Square Component
-const Square = memo(({ value, onClick, isWinningSquare }) => {
-  return (
-    <button
-      className={`square ${isWinningSquare ? 'winning-square' : ''} ${value ? 'filled' : ''}`}
-      onClick={onClick}
-      disabled={!!value}
-    >
-      {value}
-    </button>
-  );
-});
-
-// 5. Main Component
 const TicTacToe = () => {
   const [state, dispatch] = useReducer(tictactoeReducer, initialState);
 
-  // useCallback prevents re-creating the function on every render,
-  // making React.memo on Square effective.
-  const handleSquareClick = useCallback((index) => {
-    dispatch({ type: 'PLAY', index });
-  }, []);
+  const handleStart = (e) => {
+    e.preventDefault();
+    const name = e.target.username.value;
+    dispatch({ type: 'START_GAME', name, mode: 'PLAYER_VS_CPU' });
+  };
 
-  const handleReset = useCallback(() => {
-    dispatch({ type: 'RESET_GAME' });
-  }, []);
+  const handleMonteCarloStart = () => {
+    dispatch({ type: 'START_GAME', name: 'Monte Carlo', mode: 'CPU_VS_CPU' });
+  };
 
-  const handleResetScores = useCallback(() => {
-    dispatch({ type: 'RESET_SCORES' });
-  }, []);
+  const handleGuestStart = () => {
+    dispatch({ type: 'START_GAME', name: 'Guest', mode: 'PLAYER_VS_CPU' });
+  };
+
+  // Logic for CPU moves
+  useEffect(() => {
+    if (state.view !== 'PLAYING' || state.winner) return;
+
+    let timer;
+    const isCpuTurn = (state.mode === 'PLAYER_VS_CPU' && !state.xIsNext) || state.mode === 'CPU_VS_CPU';
+
+    if (isCpuTurn) {
+      dispatch({ type: 'SET_THINKING', value: true });
+      
+      timer = setTimeout(() => {
+        let move;
+        if (state.mode === 'CPU_VS_CPU' && state.xIsNext) {
+          // Monte Carlo for X in CPU vs CPU mode
+          move = monteCarloNextMove(state.squares);
+        } else {
+          // Standard strategic CPU for O
+          move = findStrategicMove(state.squares, state.xIsNext ? 'X' : 'O');
+        }
+        
+        if (move !== undefined) {
+          dispatch({ type: 'PLAY_MOVE', index: move });
+        }
+      }, 600);
+    }
+
+    return () => clearTimeout(timer);
+  }, [state.view, state.xIsNext, state.winner, state.mode, state.squares]);
+
+  if (state.view === 'SETUP') {
+    return (
+      <div className="ttt-setup animate-fade-in">
+        <div className="glass-panel setup-card">
+          <h1 className="title-retro">Tic Tac Toe</h1>
+          <p className="subtitle">Choose how you want to play</p>
+          
+          <div className="setup-options">
+            <button className="btn setup-btn glass-panel" onClick={handleGuestStart}>
+              🎮 Play as Guest
+            </button>
+            
+            <button className="btn setup-btn glass-panel" onClick={handleMonteCarloStart}>
+              🤖 CPU vs CPU (Monte Carlo)
+            </button>
+            
+            <div className="divider"><span>OR</span></div>
+            
+            <form onSubmit={handleStart} className="setup-form">
+              <input name="username" placeholder="Enter your GamerTag" required />
+              <button type="submit" className="btn primary-btn">Start Game</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="ttt-container animate-fade-in">
-      <h1 className="title-retro">Tic Tac Toe</h1>
+      <div className="ttt-header">
+        <h1 className="title-retro">Tic Tac Toe</h1>
+        <button className="exit-btn" onClick={() => dispatch({ type: 'EXIT_TO_SETUP' })}>← Change Mode</button>
+      </div>
       
       <div className="ttt-scores glass-panel">
         <div className="score-box X-score">
-          <span>X:</span> {state.scores.X}
+          <span>{state.mode === 'CPU_VS_CPU' ? 'Monte Carlo (X)' : `${state.playerName} (X)`}</span>
+          <strong>{state.scores.Player}</strong>
+        </div>
+        <div className="score-box tie-score">
+          <span>Ties</span>
+          <strong>{state.scores.Ties}</strong>
         </div>
         <div className="score-box O-score">
-          <span>O:</span> {state.scores.O}
+          <span>CPU (O)</span>
+          <strong>{state.scores.CPU}</strong>
         </div>
       </div>
       
-      <p className="status-message">{state.status}</p>
+      <div className={`status-banner ${state.isThinking ? 'thinking' : ''}`}>
+        {state.isThinking ? "CPU is thinking..." : state.status}
+      </div>
 
       <div className="board glass-panel">
-        {state.squares.map((value, idx) => {
-          const isWinningSquare = state.winningLine?.includes(idx);
-          return (
-            <Square
-              key={idx}
-              value={value}
-              onClick={() => handleSquareClick(idx)}
-              isWinningSquare={isWinningSquare}
-            />
-          );
-        })}
+        {state.squares.map((value, idx) => (
+          <Square
+            key={idx}
+            value={value}
+            onClick={() => dispatch({ type: 'PLAY_MOVE', index: idx })}
+            isWinningSquare={state.winningLine?.includes(idx)}
+            disabled={state.isThinking}
+          />
+        ))}
       </div>
 
       <div className="ttt-controls">
-        <button className="btn primary-btn glass-panel" onClick={handleReset}>
-          Play Again
-        </button>
-        <button className="btn secondary-btn glass-panel" onClick={handleResetScores}>
-          Reset Scores
+        <button className="btn primary-btn glass-panel" onClick={() => dispatch({ type: 'RESET_ROUND' })}>
+          New Round
         </button>
       </div>
     </div>
