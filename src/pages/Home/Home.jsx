@@ -39,15 +39,29 @@ const Home = () => {
       </div>
 
       <div className="tech-stack glass-panel mt-4">
-        <h3>Advanced React Requirements Covered</h3>
-        <ul>
-          <li>✅ Full Responsive UI</li>
-          <li>✅ Advanced CSS & Architecture</li>
-          <li>✅ react-router-dom Implementation</li>
-          <li>✅ Custom Hook usage (RPS)</li>
-          <li>✅ useReducer usage (TicTacToe)</li>
-          <li>✅ Optimized Renders (memo, useCallback)</li>
-        </ul>
+        <h3 className="section-title">Mikon Engine Architecture</h3>
+        <div className="tech-grid">
+          <div className="tech-item">
+            <span className="tech-icon">⚛️</span>
+            <h4>Advanced React 19</h4>
+            <p>State logic driven by the latest standards of the React ecosystem.</p>
+          </div>
+          <div className="tech-item">
+            <span className="tech-icon">🎮</span>
+            <h4>High-End Game Logic</h4>
+            <p>Custom-built engines for AI simulations and game rules.</p>
+          </div>
+          <div className="tech-item">
+            <span className="tech-icon">⚡</span>
+            <h4>Optimal Performance</h4>
+            <p>Strict memoization patterns for lightning-fast interactions.</p>
+          </div>
+          <div className="tech-item">
+            <span className="tech-icon">📱</span>
+            <h4>Responsive Design</h4>
+            <p>A unified experience across all device formats.</p>
+          </div>
+        </div>
       </div>
     </div>
   );
