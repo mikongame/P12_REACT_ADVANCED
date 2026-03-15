@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-// Choices for the Big Bang Theory version
+// Game Configuration
 export const CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
 
 // Rule map: what each choice defeats
@@ -35,7 +35,6 @@ export function usePPTLSLogic(initialScores = { player: 0, computer: 0, ties: 0 
     setComputerChoice(null);
     setResult('Ready...');
 
-    // Small delay to simulate "thinking" and allow animations to reset
     setTimeout(() => {
       const compChoice = CHOICES[Math.floor(Math.random() * CHOICES.length)];
       

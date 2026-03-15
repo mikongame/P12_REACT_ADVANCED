@@ -60,7 +60,7 @@ const Login = () => {
     if (Object.keys(errors).length === 0) {
       console.log('Form Submitted successfully:', state);
       setIsSubmitted(true);
-      // Simulating a login
+      setIsSubmitted(true);
     } else {
       dispatch({ type: 'SET_ERROR', errors });
     }

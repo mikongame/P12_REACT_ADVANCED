@@ -3,10 +3,10 @@ import { checkWinner, monteCarloNextMove, findStrategicMove } from './tictactoeU
 import './TicTacToe.css';
 
 const initialState = {
-  view: 'SETUP', // SETUP | PLAYING
+  view: 'SETUP',
   squares: Array(9).fill(null),
   playerName: 'Guest',
-  mode: 'PLAYER_VS_CPU', // PLAYER_VS_CPU | CPU_VS_CPU
+  mode: 'PLAYER_VS_CPU',
   xIsNext: true,
   status: '',
   winner: null,
@@ -92,7 +92,6 @@ function tictactoeReducer(state, action) {
 }
 
 const Square = memo(({ value, onClick, index, isWinningSquare, disabled }) => {
-  // Only calls the parent handler with its own index
   const handleClick = () => onClick(index);
   
   return (
@@ -136,10 +135,8 @@ const TicTacToe = () => {
       timer = setTimeout(() => {
         let move;
         if (state.mode === 'CPU_VS_CPU' && state.xIsNext) {
-          // Monte Carlo for X in CPU vs CPU mode
           move = monteCarloNextMove(state.squares);
         } else {
-          // Standard strategic CPU for O
           move = findStrategicMove(state.squares, state.xIsNext ? 'X' : 'O');
         }
         
@@ -152,7 +149,6 @@ const TicTacToe = () => {
     return () => clearTimeout(timer);
   }, [state.view, state.xIsNext, state.winner, state.mode, state.squares]);
 
-  // Memoized click handler to ensure Square memoization works perfectly
   const handleSquareClick = useCallback((idx) => {
     dispatch({ type: 'PLAY_MOVE', index: idx });
   }, []);

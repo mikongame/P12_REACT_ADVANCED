@@ -1,16 +1,46 @@
-# React + Vite
+# RTC Proyecto 12: React Avanzado - MikonGames Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una plataforma de mini-juegos desarrollada con **React 19** y **Vite**, centrada en el uso de hooks avanzados, optimización de renderizado y una arquitectura modular y escalable.
 
-Currently, two official plugins are available:
+## Juegos Disponibles
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Tic Tac Toe (IA Monte Carlo)**: Implementación avanzada del tres en raya con un motor de búsqueda de árbol de Monte Carlo para la CPU. Incluye modos Jugador vs CPU y CPU vs CPU.
+- **PPTLS**: Versión extendida de Piedra, Papel o Tijera (Lagarto y Spock) inspirada en The Big Bang Theory, gestionada mediante lógica desacoplada en Hooks.
+- **Vegas Slots**: Simulador de tragaperras con sistema de créditos, apuestas variables y mecánicas de comodines (*wildcards*).
 
-## React Compiler
+## Tecnologías y Características Técnicas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### React Avanzado
+- **`useReducer`**: Utilizado para la gestión de estados complejos, como el tablero del Tic Tac Toe y el sistema de validación de formularios nativos.
+- **Custom Hooks**: Lógica de negocio extraída en hooks reutilizables (`usePPTLSLogic`, `useSlotMachineLogic`) para mantener componentes limpios.
+- **Optimización de Renderizado**: Uso estratégico de `React.memo`, `useCallback` y `useMemo` para garantizar que solo los componentes necesarios se vuelvan a renderizar, cumpliendo con los estándares de rendimiento más exigentes.
 
-## Expanding the ESLint configuration
+### Arquitectura y Navegación
+- **React Router Dom**: Implementación de un sistema de navegación fluido con Layouts compartidos.
+- **Formularios Nativos**: Sistema de Login implementado de forma nativa (sin librerías externas) para demostrar el control total sobre el estado y la validación.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Estética Premium
+- **CSS Vanilla**: Diseño moderno con efectos de glassmorphism, gradientes vibrantes y animaciones fluidas para una experiencia de usuario premium.
+- **Full Responsive**: Totalmente adaptado a dispositivos móviles, tablets y escritorio.
+
+## Instalación y Uso
+
+1. Clonar el repositorio:
+   ```bash
+   git clone [URL_DEL_REPOSITORIO]
+   ```
+2. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+3. Ejecutar en modo desarrollo:
+   ```bash
+   npm run dev
+   ```
+4. Construir para producción:
+   ```bash
+   npm run build
+   ```
+
+---
+Proyecto desarrollado para el curso de **Frontend Avanzado con React**.

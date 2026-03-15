@@ -1,10 +1,9 @@
 // TicTacToe Game Utilities with Monte Carlo Tree Search
-// Based on the original vanilla implementation by the user
 
 export const WIN_LINES = [
-  [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-  [0, 3, 6], [1, 4, 7], [2, 5, 8], // cols
-  [0, 4, 8], [2, 4, 6]             // diagonals
+  [0, 1, 2], [3, 4, 5], [6, 7, 8],
+  [0, 3, 6], [1, 4, 7], [2, 5, 8],
+  [0, 4, 8], [2, 4, 6]
 ];
 
 export const checkWinner = (squares) => {
@@ -29,12 +28,9 @@ const simulateGame = (squares, startMove, player) => {
   
   let currentPlayer = player === 'montecarlo' ? 'CPU' : 'montecarlo';
   
-  // We avoid infinite loops while there are available moves
   while (true) {
-    const winner = checkWinnerSim(tempSquares, 'montecarlo');
-    if (winner) return true;
-    const cpuWinner = checkWinnerSim(tempSquares, 'CPU');
-    if (cpuWinner) return false;
+    if (checkWinnerSim(tempSquares, 'montecarlo')) return true;
+    if (checkWinnerSim(tempSquares, 'CPU')) return false;
 
     const available = getAvailableMoves(tempSquares);
     if (available.length === 0) return false;
@@ -51,7 +47,7 @@ export const monteCarloNextMove = (squares) => {
 
   const results = available.map((pos) => {
     let wins = 0;
-    const iterations = 150; // Increased for more precision in React version
+    const iterations = 150;
     for (let i = 0; i < iterations; i++) {
       if (simulateGame(squares, pos, 'montecarlo')) wins++;
     }
@@ -63,7 +59,6 @@ export const monteCarloNextMove = (squares) => {
 };
 
 export const findStrategicMove = (squares, player) => {
-  // 1. Can win now?
   for (const [a, b, c] of WIN_LINES) {
     const values = [squares[a], squares[b], squares[c]];
     if (values.filter(v => v === player).length === 2 && values.includes(null)) {
@@ -71,7 +66,6 @@ export const findStrategicMove = (squares, player) => {
     }
   }
 
-  // 2. Need to block?
   const opponent = player === 'X' ? 'O' : 'X';
   for (const [a, b, c] of WIN_LINES) {
     const values = [squares[a], squares[b], squares[c]];
@@ -80,7 +74,6 @@ export const findStrategicMove = (squares, player) => {
     }
   }
 
-  // 3. Score weighting (center > corners > edges) or fallback to random
   const weights = [3, 2, 3, 2, 4, 2, 3, 2, 3];
   const available = getAvailableMoves(squares);
   available.sort((a, b) => weights[b] - weights[a]);

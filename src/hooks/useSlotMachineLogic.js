@@ -1,8 +1,7 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 
-// Paytable rules based on the original project
 const PAYTABLE = {
-  "0": 1, "1": 2, "2": 3, "3": 5, "4": 10,
+  "0": 1, "1": 2, "3": 5, "4": 10,
   "5": 20, "6": 100, "7": 300, "8": 500, "9": 1000
 };
 
@@ -20,13 +19,11 @@ export function useSlotMachineLogic(initialCredits = 1000) {
       counts[num] = (counts[num] || 0) + 1;
     }
 
-    // Checking for 3 of a kind (including 9 as wildcard)
     for (let num in counts) {
       const total = counts[num] + reelsArr.filter(n => n === 9).length;
-      if (total >= 3) return PAYTABLE[num];
+      if (total >= 3) return PAYTABLE[num] || 0;
     }
 
-    // Special case: 3 wildcards (nines)
     return reelsArr.every(n => n === 9) ? PAYTABLE["9"] : 0;
   };
 
@@ -37,7 +34,6 @@ export function useSlotMachineLogic(initialCredits = 1000) {
     setCredits(prev => prev - bet);
     setLastWin(0);
 
-    // Dynamic reel change during animation
     const spinInterval = setInterval(() => {
       setReels([
         Math.floor(Math.random() * 10),
