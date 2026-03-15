@@ -1,7 +1,9 @@
+import { useUser } from '../../context/UserContext';
 import { useSlotMachineLogic } from '../../hooks/useSlotMachineLogic';
 import './SlotMachine.css';
 
 const SlotMachine = () => {
+  const { user } = useUser();
   const {
     credits,
     reels,
@@ -18,7 +20,7 @@ const SlotMachine = () => {
       
       <div className="slots-dashboard glass-panel">
         <div className="dashboard-metric">
-          <span>Credits</span>
+          <span>{user?.username || 'Player'} Credits</span>
           <div className="metric-value">{credits}</div>
         </div>
         <div className="dashboard-metric">

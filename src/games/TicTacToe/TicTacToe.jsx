@@ -1,4 +1,5 @@
 import { useReducer, useEffect, useCallback, memo } from 'react';
+import { useUser } from '../../context/UserContext';
 import { checkWinner, monteCarloNextMove, findStrategicMove } from './tictactoeUtils';
 import './TicTacToe.css';
 
@@ -106,7 +107,15 @@ const Square = memo(({ value, onClick, index, isWinningSquare, disabled }) => {
 });
 
 const TicTacToe = () => {
+  const { user } = useUser();
   const [state, dispatch] = useReducer(tictactoeReducer, initialState);
+
+  // Auto-login to the game if user exists in context
+  useEffect(() => {
+    if (user && state.view === 'SETUP') {
+      dispatch({ type: 'START_GAME', name: user.username, mode: 'PLAYER_VS_CPU' });
+    }
+  }, [user, state.view]);
 
   const handleStart = (e) => {
     e.preventDefault();

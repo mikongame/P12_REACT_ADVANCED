@@ -1,7 +1,9 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import { useUser } from '../../context/UserContext';
 import './Layout.css';
 
 const Layout = () => {
+  const { user } = useUser();
   const location = useLocation();
 
   return (
@@ -17,6 +19,13 @@ const Layout = () => {
           <Link to="/pps" className={location.pathname === '/pps' ? 'active' : ''}>PPTLS</Link>
           <Link to="/slots" className={location.pathname === '/slots' ? 'active' : ''}>Slots</Link>
         </nav>
+        <div className="user-status">
+          {user ? (
+            <span className="user-badge">👾 {user.username}</span>
+          ) : (
+            <Link to="/login" className="login-pill">Sign In</Link>
+          )}
+        </div>
       </header>
 
       <main className="main-content">

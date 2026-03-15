@@ -72,6 +72,38 @@
   font-weight: 500;
 }
 
+.user-status {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-badge {
+  background: var(--surface-2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  border: 1px solid var(--primary-glow);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.login-pill {
+  background: var(--primary);
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.login-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--primary-glow);
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;

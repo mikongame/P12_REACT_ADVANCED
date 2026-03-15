@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useUser } from '../../context/UserContext';
 import { usePPTLSLogic, CHOICE_ICONS } from '../../hooks/usePPTLSLogic';
 import './PPTLS.css';
 
@@ -18,6 +19,7 @@ const ChoiceButton = memo(({ choice, onClick, disabled }) => {
 });
 
 const PPTLS = () => {
+  const { user } = useUser();
   const {
     scores,
     playerChoice,
@@ -38,7 +40,7 @@ const PPTLS = () => {
       
       <div className="pptls-scores glass-panel">
         <div className="score-box player-score">
-          <span>You</span>
+          <span>{user?.username || 'You'}</span>
           <strong>{scores.player}</strong>
         </div>
         <div className="score-box tie-score">

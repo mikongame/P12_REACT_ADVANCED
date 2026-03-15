@@ -1,4 +1,5 @@
-import { useReducer, useState } from 'react';
+import { useReducer, useState, useEffect } from 'react';
+import { useUser } from '../../context/UserContext';
 import './Login.css';
 
 const formReducer = (state, action) => {
@@ -29,8 +30,13 @@ const initialState = {
 };
 
 const Login = () => {
+  const { user, login, logout } = useUser();
   const [state, dispatch] = useReducer(formReducer, initialState);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (user) setIsSubmitted(true);
+  }, [user]);
 
   const handleChange = (e) => {
     dispatch({
@@ -59,7 +65,7 @@ const Login = () => {
     
     if (Object.keys(errors).length === 0) {
       console.log('Form Submitted successfully:', state);
-      setIsSubmitted(true);
+      login({ username: state.username, email: state.email });
       setIsSubmitted(true);
     } else {
       dispatch({ type: 'SET_ERROR', errors });
@@ -67,6 +73,7 @@ const Login = () => {
   };
 
   const handleReset = () => {
+    logout();
     dispatch({ type: 'RESET' });
     setIsSubmitted(false);
   };
@@ -75,7 +82,7 @@ const Login = () => {
     return (
       <div className="login-container animate-fade-in">
         <div className="glass-panel success-card">
-          <h2 className="title-retro">Welcome Back, {state.username}!</h2>
+          <h2 className="title-retro">Welcome Back, {user?.username}!</h2>
           <p>You have successfully logged into the MikonGames hub.</p>
           <button className="btn primary-btn mt-2" onClick={handleReset}>Logout / Reset</button>
         </div>
