@@ -1,0 +1,40 @@
+.gamehub-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background-color: var(--neutral-white);
+  color: var(--dark-blue);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+.gamehub-social-icons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.gamehub-social-icons img {
+  width: 24px;
+  height: 24px;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.gamehub-social-icons img:hover {
+  filter: grayscale(0%);
+}
+
+@media (max-width: 600px) {
+  .gamehub-footer {
+    font-size: 0.8rem;
+  }
+
+  .gamehub-social-icons {
+    gap: 0.75rem;
+  }
+}

@@ -1,0 +1,93 @@
+.gamehub-container {
+  min-height: 60vh;
+  padding: 2rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  background-color: var(--dark-blue);
+  box-sizing: border-box;
+}
+
+.gamehub-placeholder {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  color: var(--dark-blue);
+  opacity: 0.8;
+  max-width: 80%;
+  margin: 2rem 0;
+}
+
+.gamehub-intro {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  background-color: #f4f6fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  font-family: 'Poppins', sans-serif;
+  padding: 2rem 2rem;
+  box-sizing: border-box;
+}
+
+.gamehub-intro h2 {
+  color: #001F54;
+  margin-bottom: 1em;
+}
+
+.gamehub-intro p {
+  font-size: 1.1em;
+  margin-bottom: 1em;
+}
+
+.gamehub-rules {
+  text-align: left;
+  margin: 1em auto;
+  padding-left: 1.5em;
+  font-size: 1em;
+}
+
+.gamehub-rules li {
+  margin-bottom: 0.8em;
+  list-style: none;
+}
+
+.gamehub-note {
+  margin-top: 1.5em;
+  font-style: italic;
+  color: #666;
+}
+
+@media (max-width: 600px) {
+  .pptls-buttons button,
+  .slots-reel {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 500px) {
+  .gamehub-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .gamehub-intro {
+    padding: 1.5rem 1rem;
+  }
+}
+
+h2, .game-title, .gamehub-intro h2 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.5rem;
+  letter-spacing: -0.5px;
+  text-shadow: 1px 1px 0 #0002;
+}
+
+p.gamehub-placeholder {
+  font-family: 'Press Start 2P', cursive;
+  color: var(--neutral-white);
+  font-size: 1rem;
+  letter-spacing: -0.5px;
+}
+

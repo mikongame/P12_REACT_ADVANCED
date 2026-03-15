@@ -1,0 +1,75 @@
+.gamehub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--neutral-white);
+  border-bottom: 1px solid #ddd;
+}
+
+.gamehub-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  color: var(--accent-orange);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--dark-blue);
+  cursor: pointer;
+}
+
+.gamehub-nav-menu {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gamehub-nav-button {
+  background: none;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  color: var(--dark-blue);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.gamehub-nav-button:hover {
+  color: var(--accent-orange);
+}
+
+/* Responsive Header */
+@media (max-width: 871px) {
+  .gamehub-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gamehub-nav-menu {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: var(--neutral-white);
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+    display: none;
+  }
+
+  .gamehub-nav-menu.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
