@@ -1,0 +1,181 @@
+.rps-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.rps-scores {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 1.5rem;
+  background: var(--surface-1);
+}
+
+.score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-box span {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.score-box strong {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--text-main);
+}
+
+.player-score strong {
+  color: var(--accent-success);
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.comp-score strong {
+  color: var(--accent-danger);
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+}
+
+.rps-arena {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  position: relative;
+}
+
+.player-side, .computer-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.player-side h3 {
+  color: var(--accent-success);
+}
+
+.computer-side h3 {
+  color: var(--accent-danger);
+}
+
+.choice-display {
+  font-size: 5rem;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: var(--surface-2);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease;
+}
+
+.choice-display.active {
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.vs-badge {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--primary);
+  text-shadow: 0 0 15px var(--primary-glow);
+  background: var(--surface-1);
+  padding: 1rem;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.result-banner {
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  font-family: var(--font-display);
+  color: var(--secondary);
+  text-shadow: 0 0 10px var(--secondary-glow);
+}
+
+.rps-controls {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.choice-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 2rem;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.choice-btn:hover {
+  transform: translateY(-5px);
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--primary);
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+}
+
+.choice-icon {
+  font-size: 2.5rem;
+}
+
+.choice-name {
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--text-main);
+  letter-spacing: 1px;
+}
+
+.reset-btn {
+  padding: 0.8rem 2rem;
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+.reset-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 600px) {
+  .choice-display {
+    width: 80px;
+    height: 80px;
+    font-size: 3rem;
+  }
+
+  .rps-arena {
+    padding: 1.5rem 0.5rem;
+  }
+
+  .vs-badge {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+}
